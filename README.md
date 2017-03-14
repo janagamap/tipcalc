@@ -2,4 +2,4 @@
 
 Creating a TipCalculator IOS prework.
 Gif animation using licecap.
-<img src="tipcalc/iosprework.gif">
+<img src="https://github.com/janagamap/tipcalc/blob/master/iosprework.gif">
