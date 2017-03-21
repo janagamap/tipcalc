@@ -19,6 +19,16 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var tipControl: UISegmentedControl!
     
+    
+    
+    
+     let pref = UserDefaults.standard
+    
+    
+    var tipPercentages: [Double] = []
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -35,10 +45,12 @@ class ViewController: UIViewController {
 
     @IBAction func calculateTip(_ sender: Any) {
         
-        let tipPercentages = [0.18, 0.2, 0.25]
+       
         
         let bill = Double(billField.text!) ?? 0
         let tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
+        
+        print(tipPercentages[tipControl.selectedSegmentIndex])
         let total = bill + tip
         
         tipLabel.text = String(format: "$%.2f", tip)
@@ -51,7 +63,23 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        pref.synchronize();
         print("view will appear")
+        print("settings ", pref.dictionaryWithValues(forKeys: ["tip1setting","tip2setting", "tip3setting"]))
+        let tip1Setting = (pref.double(forKey: "tip1setting"))
+        let tip2Setting = (pref.double(forKey: "tip2setting"))
+        let tip3Setting = (pref.double(forKey: "tip3setting"))
+        tipPercentages = []
+        tipPercentages.append(tip1Setting/100.0)
+        tipPercentages.append(tip2Setting/100.0)
+        tipPercentages.append(tip3Setting/100.0)
+        tipControl.setTitle(String(tip1Setting)+"%", forSegmentAt: 0)
+        tipControl.setTitle(String(tip2Setting)+"%", forSegmentAt: 1)
+        tipControl.setTitle(String(tip3Setting)+"%", forSegmentAt: 2)
+        
+        calculateTip(billField)
+        
+        
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
